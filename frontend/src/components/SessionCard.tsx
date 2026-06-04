@@ -1,9 +1,8 @@
-import React, { useState } from 'react';
-import { SessionResponse } from '../api/client';
-import client from '../api/client';
+import { useState } from 'react';
+import { Session, deleteSession } from '../api/client';
 
 interface SessionCardProps {
-  session: SessionResponse;
+  session: Session;
   onStatusChange: () => void;
 }
 
@@ -16,7 +15,7 @@ export function SessionCard({ session, onStatusChange }: SessionCardProps) {
     
     setIsStopping(true);
     try {
-      await client.deleteSession(session.id);
+      await deleteSession(session.id);
       onStatusChange();
     } catch (err) {
       console.error('Failed to stop session', err);

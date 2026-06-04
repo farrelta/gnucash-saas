@@ -1,6 +1,4 @@
-import React from 'react';
-import { FileInfo } from '../api/client';
-import client from '../api/client';
+import { FileInfo, downloadFile, deleteFile } from '../api/client';
 
 interface FileListProps {
   files: FileInfo[];
@@ -18,16 +16,7 @@ export function FileList({ files, onFileDeleted }: FileListProps) {
 
   const handleDownload = async (filename: string) => {
     try {
-      const response = await client.downloadFile(filename);
-      // Create a blob URL and trigger download
-      const url = window.URL.createObjectURL(new Blob([response.data]));
-      const link = document.createElement('a');
-      link.href = url;
-      link.setAttribute('download', filename);
-      document.body.appendChild(link);
-      link.click();
-      link.parentNode?.removeChild(link);
-      window.URL.revokeObjectURL(url);
+      await downloadFile(filename);
     } catch (err) {
       console.error('Download failed', err);
       alert('Failed to download file.');
@@ -38,7 +27,7 @@ export function FileList({ files, onFileDeleted }: FileListProps) {
     if (!window.confirm(`Are you sure you want to delete ${filename}?`)) return;
     
     try {
-      await client.deleteFile(filename);
+      await deleteFile(filename);
       onFileDeleted();
     } catch (err) {
       console.error('Delete failed', err);

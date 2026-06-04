@@ -1,21 +1,28 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { useAuth } from '../context/AuthContext';
-import client, { SessionResponse, FileInfo } from '../api/client';
+import {
+  Session,
+  FileInfo,
+  getSessions,
+  getFiles,
+  createSession,
+  heartbeatSession
+} from '../api/client';
 import { SessionCard } from '../components/SessionCard';
 import { FileUpload } from '../components/FileUpload';
 import { Link } from 'react-router-dom';
 
 export function DashboardPage() {
   const { user } = useAuth();
-  const [sessions, setSessions] = useState<SessionResponse[]>([]);
+  const [sessions, setSessions] = useState<Session[]>([]);
   const [recentFiles, setRecentFiles] = useState<FileInfo[]>([]);
   const [isLoadingSessions, setIsLoadingSessions] = useState(true);
   const [isCreatingSession, setIsCreatingSession] = useState(false);
 
   const fetchSessions = useCallback(async () => {
     try {
-      const response = await client.getSessions();
-      setSessions(response.data);
+      const sessions = await getSessions();
+      setSessions(sessions);
     } catch (err) {
       console.error('Failed to fetch sessions', err);
     } finally {
@@ -25,9 +32,9 @@ export function DashboardPage() {
 
   const fetchRecentFiles = useCallback(async () => {
     try {
-      const response = await client.getFiles();
+      const files = await getFiles();
       // Sort by modified date descending and take top 3
-      const sorted = response.data.sort((a, b) => 
+      const sorted = files.sort((a, b) => 
         new Date(b.modified_at).getTime() - new Date(a.modified_at).getTime()
       );
       setRecentFiles(sorted.slice(0, 3));
@@ -46,7 +53,7 @@ export function DashboardPage() {
     const interval = setInterval(() => {
       fetchSessions();
       if (activeSession) {
-        client.heartbeatSession(activeSession.id).catch(console.error);
+        heartbeatSession(activeSession.id).catch(console.error);
       }
     }, 10000);
     
@@ -56,7 +63,7 @@ export function DashboardPage() {
   const handleCreateSession = async () => {
     setIsCreatingSession(true);
     try {
-      await client.createSession();
+      await createSession();
       await fetchSessions();
     } catch (err) {
       console.error('Failed to create session', err);

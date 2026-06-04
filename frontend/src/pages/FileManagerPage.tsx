@@ -1,7 +1,7 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { FileList } from '../components/FileList';
 import { FileUpload } from '../components/FileUpload';
-import client, { FileInfo } from '../api/client';
+import { FileInfo, getFiles } from '../api/client';
 
 export function FileManagerPage() {
   const [files, setFiles] = useState<FileInfo[]>([]);
@@ -12,8 +12,8 @@ export function FileManagerPage() {
     setIsLoading(true);
     setError(null);
     try {
-      const response = await client.getFiles();
-      setFiles(response.data);
+      const files = await getFiles();
+      setFiles(files);
     } catch (err) {
       console.error('Failed to fetch files', err);
       setError('Failed to load files. Please try again.');

@@ -1,5 +1,5 @@
-import React, { useCallback, useState, useRef } from 'react';
-import client from '../api/client';
+import { useCallback, useState, useRef } from 'react';
+import { uploadFile } from '../api/client';
 
 interface FileUploadProps {
   onUploadSuccess: () => void;
@@ -31,7 +31,7 @@ export function FileUpload({ onUploadSuccess }: FileUploadProps) {
       setIsUploading(true);
       setUploadProgress(10);
       
-      await client.uploadFile(file);
+      await uploadFile(file);
       
       setUploadProgress(100);
       setTimeout(() => {
