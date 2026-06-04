@@ -6,8 +6,8 @@ import { FileInfo, getFiles } from '../api/client';
 export function FileManagerPage() {
   const [files, setFiles] = useState<FileInfo[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-
+  const [, setError] = useState<string | null>(null);
+  
   const fetchFiles = useCallback(async () => {
     setIsLoading(true);
     setError(null);
