@@ -36,7 +36,7 @@ export interface FileInfo {
 /*  Axios Instance                                                     */
 /* ------------------------------------------------------------------ */
 
-const baseURL = import.meta.env.VITE_API_URL || '';
+const baseURL = '/';
 
 const api: AxiosInstance = axios.create({
   baseURL,

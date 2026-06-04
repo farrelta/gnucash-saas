@@ -104,7 +104,7 @@ async def upload_file(
     )
 
 
-@router.get("/", response_model=List[FileInfo])
+@router.get("", response_model=List[FileInfo])
 async def list_files(
     current_user: User = Depends(get_current_user),
 ) -> List[FileInfo]:

@@ -4,14 +4,14 @@ docker
 pydantic[email]
 sqlalchemy
 python-jose[cryptography]
-passlib[bcrypt]
+passlib[bcrypt]==1.7.4
 python-multipart
 python-dotenv
 slowapi
 apscheduler
 pymysql
 cryptography
-bcrypt
+bcrypt==3.2.2
 pytest
 pytest-asyncio
 httpx

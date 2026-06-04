@@ -60,6 +60,8 @@ def create_container(user_id: int, session_token: str) -> dict:
                 f"PathPrefix(`/session/{session_token}`)",
             f"traefik.http.routers.gnucash-{session_token}.entrypoints":
                 "websecure",
+	    f"traefik.http.routers.gnucash-{session_token}.priority":
+        	"100",
             f"traefik.http.routers.gnucash-{session_token}.middlewares":
                 f"slash-{session_token},strip-{session_token}",
             # Middleware: trailing-slash redirect
