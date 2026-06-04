@@ -15,7 +15,8 @@ env/
 
 # Environment variables
 .env
-.env.*
+.env.local
+.env.production
 
 # IDE
 .vscode/
@@ -33,10 +34,21 @@ build/
 dist/
 *.egg-info/
 
-# Node (for future React frontend)
+# Node
 node_modules/
+frontend/dist/
+frontend/.env
 
 # Coverage
 .coverage
 htmlcov/
 .pytest_cache/
+
+# Let's Encrypt
+traefik/acme.json
+
+# Docker
+*.tar
+
+# User data
+/opt/gnucash-data/
