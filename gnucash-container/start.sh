@@ -30,8 +30,11 @@ sleep 1
 
 # ── Start XPRA on the INTERNAL port (14501) ─────────────────────────
 # nginx listens on 14500 and proxies to 14501.
+# Note: openbox is intentionally omitted — xpra's HTML5 client has
+# its own window management; openbox would need --start to run in
+# the background but fails because the display doesn't exist yet at
+# script startup (xpra creates :100 internally).
 xpra start :100 \
-  --start-child=openbox \
   --start-child=gnucash \
   --bind-tcp=0.0.0.0:14501 \
   --html=on \
