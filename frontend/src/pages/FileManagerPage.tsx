@@ -27,7 +27,7 @@ export function FileManagerPage() {
   }, [fetchFiles]);
 
   return (
-    <div className="file-manager-page">
+    <div className="page-container">
       <div className="flex-between mb-lg align-center">
         <div>
           <h1 className="page-title">File Manager</h1>

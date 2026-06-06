@@ -42,6 +42,7 @@ export function LoginPage() {
             <input
               type="email"
               id="email"
+              className="input-field"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
@@ -53,6 +54,7 @@ export function LoginPage() {
             <input
               type="password"
               id="password"
+              className="input-field"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required

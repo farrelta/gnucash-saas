@@ -74,8 +74,8 @@ export function DashboardPage() {
   };
 
   return (
-    <div className="dashboard-page">
-      <div className="dashboard-header mb-lg">
+    <div className="page-container">
+      <div className="page-header">
         <h1 className="page-title">Welcome back!</h1>
         <p className="text-secondary">Here's an overview of your GnuCash workspace.</p>
       </div>

@@ -54,6 +54,7 @@ export function RegisterPage() {
             <input
               type="email"
               id="email"
+              className="input-field"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
@@ -65,6 +66,7 @@ export function RegisterPage() {
             <input
               type="password"
               id="password"
+              className="input-field"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
@@ -76,6 +78,7 @@ export function RegisterPage() {
             <input
               type="password"
               id="confirmPassword"
+              className="input-field"
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
               required
