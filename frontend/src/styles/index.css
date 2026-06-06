@@ -1122,74 +1122,12 @@ h4 { font-size: 1.125rem; }
   flex-shrink: 0;
 }
 
-/* ---------- File Table ---------- */
-.file-list-container {
-  overflow: hidden;
-}
-
-.file-table {
-  width: 100%;
-  border-collapse: collapse;
-}
-
-.file-table th {
-  text-align: left;
-  padding: 0.875rem 1.25rem;
-  font-size: 0.75rem;
-  font-weight: 600;
-  color: var(--color-text-muted);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  background: rgba(255, 255, 255, 0.02);
-  border-bottom: 1px solid var(--color-border);
-}
-
-.file-table td {
-  padding: 0.875rem 1.25rem;
-  font-size: 0.875rem;
-  color: var(--color-text-secondary);
-  border-bottom: 1px solid var(--color-border);
-}
-
-.file-table tr:last-child td {
-  border-bottom: none;
-}
-
-.file-table tbody tr:hover td {
-  background: rgba(255, 255, 255, 0.03);
-}
-
-.file-table .file-name {
-  font-weight: 500;
-  color: var(--color-text-primary);
-}
-
-.file-table .actions-cell {
-  text-align: right;
-  white-space: nowrap;
-}
-
-/* ---------- Upload Zone Content ---------- */
+/* ---------- Upload Zone ---------- */
 .file-upload-container {
   width: 100%;
 }
 
-.drop-zone {
-  cursor: pointer;
-  transition: all var(--transition-normal);
-}
-
-.drop-zone.dragging {
-  border-color: var(--color-accent-cyan);
-  background: rgba(0, 212, 255, 0.03);
-  box-shadow: var(--shadow-glow-cyan);
-}
-
 .drop-zone-content {
-  position: relative;
-}
-
-.upload-progress-container {
   position: relative;
 }
 
@@ -1221,12 +1159,6 @@ h4 { font-size: 1.125rem; }
   margin-bottom: 1rem;
 }
 
-.session-body {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-}
-
 .session-id {
   font-size: 0.75rem;
   color: var(--color-text-muted);
@@ -1242,10 +1174,6 @@ h4 { font-size: 1.125rem; }
 
 .active-glow {
   box-shadow: 0 0 20px rgba(0, 212, 255, 0.15);
-}
-
-.pulse {
-  animation: pulse-dot 2s ease-in-out infinite;
 }
 
 .btn-full {
@@ -1273,6 +1201,29 @@ h4 { font-size: 1.125rem; }
   font-weight: 600;
   text-align: center;
   margin-bottom: 0.5rem;
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.auth-link {
+  color: var(--color-accent-cyan);
+  font-weight: 600;
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+
+.auth-link:hover {
+  color: #33dfff;
+  text-decoration: underline;
+}
+
+.page-title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  margin-bottom: 0.25rem;
 }
 
 /* ---------- Section ---------- */
