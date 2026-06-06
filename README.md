@@ -1,10 +1,10 @@
 # GnuCash SaaS — Multi-Tenant Cloud Accounting Platform
 
-A cloud-based accounting platform that gives each user their own GnuCash desktop instance, accessible through a web browser. Built with a multi-tenant architecture where per-user Docker containers run GnuCash via xpra HTML5, managed by a FastAPI backend with a React frontend.
+A cloud-based accounting platform that gives each user their own GnuCash desktop instance, accessible through a web browser. Built with a multi-tenant architecture where per-user Docker containers run isolated GnuCash instances accessible via xpra HTML5 streaming.
 
 ---
 
-## Architecture
+## 🏗️ Architecture
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
@@ -44,21 +44,24 @@ A cloud-based accounting platform that gives each user their own GnuCash desktop
         └──────────────────┘
 ```
 
-**Technology Stack:**
+### 📊 Technology Stack
 
-| Component       | Technology                       |
-|-----------------|----------------------------------|
-| Reverse Proxy   | Traefik v3.1 + Let's Encrypt     |
-| Backend API     | Python 3.12, FastAPI, Uvicorn    |
-| Frontend        | React 18, TypeScript, Vite       |
-| Database        | Azure MySQL (managed)            |
-| Desktop Streaming | xpra HTML5 (port 14500)        |
-| Containerization | Docker, Docker Compose          |
-| Host OS         | Ubuntu 24.04 LTS                 |
+| Component | Technology | Coverage |
+|-----------|-----------|----------|
+| **Reverse Proxy** | Traefik v3.1 + Let's Encrypt | — |
+| **Backend API** | Python 3.12, FastAPI, Uvicorn | **42.5%** |
+| **Frontend** | React 18, TypeScript, Vite | **30.3%** |
+| **Styling** | CSS | **23.6%** |
+| **Database** | Azure MySQL (managed) | — |
+| **Desktop Streaming** | xpra HTML5 (port 14500) | — |
+| **Containerization** | Docker, Docker Compose | **1.1%** |
+| **Infrastructure** | Shell scripting | **1.9%** |
+| **Markup** | HTML | **0.6%** |
+| **Host OS** | Ubuntu 24.04 LTS | — |
 
 ---
 
-## Prerequisites
+## 📋 Prerequisites
 
 - **Ubuntu 24.04 LTS** server (or compatible Linux)
 - **Docker** ≥ 24.0 and **Docker Compose** ≥ 2.20
@@ -68,12 +71,12 @@ A cloud-based accounting platform that gives each user their own GnuCash desktop
 
 ---
 
-## Quick Start
+## 🚀 Quick Start
 
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/your-org/gnucash-saas.git
+git clone https://github.com/farrelta/gnucash-saas.git
 cd gnucash-saas
 ```
 
@@ -120,7 +123,7 @@ Open `https://your-domain.com` in your browser.
 
 ---
 
-## Environment Variables
+## ⚙️ Environment Variables
 
 | Variable | Description | Default | Required |
 |----------|-------------|---------|----------|
@@ -137,7 +140,7 @@ Open `https://your-domain.com` in your browser.
 
 ---
 
-## API Reference
+## 🔌 API Reference
 
 | Method | Path | Auth | Description |
 |--------|------|------|-------------|
@@ -154,9 +157,9 @@ Open `https://your-domain.com` in your browser.
 
 ---
 
-## Development
+## 👨‍💻 Development
 
-### Backend
+### Backend (Python 42.5%)
 
 ```bash
 cd backend
@@ -167,7 +170,20 @@ pip install -r requirements.txt
 uvicorn main:app --reload --port 8000
 ```
 
-### Frontend
+**Backend Structure:**
+- `main.py` — FastAPI application entry point
+- `auth.py` — JWT authentication logic
+- `database.py` — SQLAlchemy database connection
+- `models.py` — SQLAlchemy ORM models
+- `schemas.py` — Pydantic request/response schemas
+- `docker_manager.py` — GnuCash container lifecycle management
+- `file_manager.py` — File upload/download endpoints
+- `scheduler.py` — APScheduler idle session cleanup
+- `requirements.txt` — Python dependencies
+- `Dockerfile` — Python 3.12-slim container
+- `tests/` — Test suite (conftest, auth, files, scheduler, sessions)
+
+### Frontend (TypeScript 30.3% + CSS 23.6%)
 
 ```bash
 cd frontend
@@ -177,51 +193,86 @@ npm run dev    # Starts Vite dev server on http://localhost:5173
 
 The Vite dev server is pre-configured to proxy `/api` requests to `http://localhost:8000`.
 
+**Frontend Structure:**
+- `src/App.tsx` — Main React application component
+- `src/main.tsx` — React application entry point
+- `src/vite-env.d.ts` — Vite environment type definitions
+- `src/api/` — API client modules
+- `src/components/` — Reusable React components
+- `src/context/` — React context for state management
+- `src/pages/` — Page components (routing)
+- `src/styles/` — CSS stylesheets
+- `package.json` — Node.js dependencies
+- `vite.config.ts` — Vite build configuration
+- `tsconfig.json` — TypeScript configuration
+- `tsconfig.app.json` — TypeScript app configuration
+- `tsconfig.node.json` — TypeScript node configuration
+- `index.html` — HTML entry point
+- `nginx.conf` — Nginx SPA + API proxy config
+- `Dockerfile` — Multi-stage Node 20 + Nginx container
+
 ---
 
-## Project Structure
+## 📦 Project Structure
 
 ```
 gnucash-saas/
-├── docker-compose.yml          # Service orchestration
-├── .env.example                # Environment template
-├── .gitignore                  # Git ignore rules
-├── README.md                   # This file
+├── docker-compose.yml              # Service orchestration
+├── .env.example                    # Environment template
+├── .gitignore                      # Git ignore rules
+├── README.md                       # This file
+├── SECURITY.md                     # Security policies
 │
-├── traefik/
-│   ├── traefik.yml             # Traefik config (HTTPS + Let's Encrypt)
-│   └── acme.json               # Let's Encrypt certificates (auto-generated)
+├── traefik/                        # Reverse proxy configuration
+│   ├── traefik.yml                 # Traefik config (HTTPS + Let's Encrypt)
+│   └── acme.json                   # Let's Encrypt certificates (auto-generated)
 │
-├── backend/
-│   ├── Dockerfile              # Python 3.12-slim container
-│   ├── requirements.txt        # Python dependencies
-│   ├── main.py                 # FastAPI application entry point
-│   ├── auth.py                 # JWT authentication logic
-│   ├── database.py             # SQLAlchemy database connection
-│   ├── models.py               # SQLAlchemy ORM models
-│   ├── schemas.py              # Pydantic request/response schemas
-│   ├── docker_manager.py       # GnuCash container lifecycle management
-│   ├── file_manager.py         # File upload/download endpoints
-│   └── scheduler.py            # APScheduler idle session cleanup
+├── backend/                        # FastAPI Backend (Python 42.5%)
+│   ├── Dockerfile                  # Python 3.12-slim container
+│   ├── requirements.txt            # Python dependencies
+│   ├── main.py                     # FastAPI application entry point
+│   ├── auth.py                     # JWT authentication logic
+│   ├── database.py                 # SQLAlchemy database connection
+│   ├── models.py                   # SQLAlchemy ORM models
+│   ├── schemas.py                  # Pydantic request/response schemas
+│   ├── docker_manager.py           # GnuCash container lifecycle management
+│   ├── file_manager.py             # File upload/download endpoints
+│   ├── scheduler.py                # APScheduler idle session cleanup
+│   └── tests/                      # Unit tests
+│       ├── conftest.py             # Pytest configuration
+│       ├── test_auth.py            # Authentication tests
+│       ├── test_files.py           # File management tests
+│       ├── test_scheduler.py       # Scheduler tests
+│       └── test_sessions.py        # Session management tests
 │
-├── frontend/
-│   ├── Dockerfile              # Multi-stage Node 20 + Nginx
-│   ├── nginx.conf              # Nginx SPA + API proxy config
-│   ├── package.json            # Node.js dependencies
-│   ├── vite.config.ts          # Vite build configuration
-│   ├── tsconfig.json           # TypeScript configuration
-│   └── src/                    # React application source
-│       ├── App.tsx
-│       ├── main.tsx
-│       └── ...
+├── frontend/                       # React Frontend (TypeScript 30.3% + CSS 23.6%)
+│   ├── Dockerfile                  # Multi-stage Node 20 + Nginx
+│   ├── nginx.conf                  # Nginx SPA + API proxy config
+│   ├── package.json                # Node.js dependencies
+│   ├── vite.config.ts              # Vite build configuration
+│   ├── tsconfig.json               # TypeScript configuration
+│   ├── tsconfig.app.json           # TypeScript app configuration
+│   ├── tsconfig.node.json          # TypeScript node configuration
+│   ├── index.html                  # HTML entry point
+│   └── src/                        # React application source
+│       ├── App.tsx                 # Main React component
+│       ├── main.tsx                # Entry point
+│       ├── vite-env.d.ts           # Type definitions
+│       ├── api/                    # API client modules
+│       ├── components/             # Reusable React components
+│       ├── context/                # React context state management
+│       ├── pages/                  # Page components
+│       └── styles/                 # CSS stylesheets
 │
-└── gnucash-container/
-    └── Dockerfile              # GnuCash + xpra container image
+└── gnucash-container/              # GnuCash Desktop Container
+    ├── Dockerfile                  # GnuCash + xpra container image
+    ├── nginx.conf.template         # Nginx template for xpra
+    └── start.sh                    # Container startup script
 ```
 
 ---
 
-## Security
+## 🔒 Security
 
 - **HTTPS everywhere** — Traefik auto-provisions TLS certificates via Let's Encrypt
 - **HTTP → HTTPS redirect** — All HTTP traffic is redirected to HTTPS
@@ -234,9 +285,11 @@ gnucash-saas/
 - **Idle cleanup** — Automatic container shutdown after configurable idle timeout
 - **No exposed ports** — Backend and frontend are only accessible through Traefik
 
+For detailed security policies, see [SECURITY.md](SECURITY.md).
+
 ---
 
-## Troubleshooting
+## 🐛 Troubleshooting
 
 ### Let's Encrypt certificate not issuing
 
@@ -256,8 +309,65 @@ gnucash-saas/
 2. Ensure `gnucash-net` network exists: `docker network ls`
 3. Ensure the `gnucash-xpra` image is built: `docker images | grep gnucash-xpra`
 
+### Frontend not loading
+
+1. Check frontend container logs: `docker-compose logs frontend`
+2. Verify `VITE_API_URL` is correctly set during build
+3. Ensure backend API is accessible: `curl https://your-domain.com/api/docs`
+
+### Backend API returning 500 errors
+
+1. Check backend logs: `docker-compose logs backend`
+2. Verify all environment variables are set correctly
+3. Test database connectivity: `docker-compose exec backend python -c "from database import engine; engine.connect()"`
+
 ---
 
-## License
+## 📝 Testing
+
+Run the backend test suite:
+
+```bash
+cd backend
+pytest tests/
+```
+
+Run tests with coverage:
+
+```bash
+pytest tests/ --cov=. --cov-report=html
+```
+
+Test categories:
+- **test_auth.py** — User registration, login, JWT validation
+- **test_files.py** — File upload, download, listing
+- **test_sessions.py** — Session creation, lifecycle, container management
+- **test_scheduler.py** — Idle timeout, automatic cleanup
+
+---
+
+## 📄 License
 
 MIT License — see [LICENSE](LICENSE) for details.
+
+---
+
+## 🤝 Contributing
+
+Contributions are welcome! Please ensure:
+
+1. All tests pass: `pytest tests/`
+2. Code follows PEP 8 (Python) and ESLint (TypeScript)
+3. New features include appropriate tests
+4. Documentation is updated accordingly
+
+---
+
+## 📞 Support
+
+For issues and feature requests, please visit the [Issues](https://github.com/farrelta/gnucash-saas/issues) page.
+
+---
+
+**Last Updated:** June 2026  
+**Repository:** https://github.com/farrelta/gnucash-saas
