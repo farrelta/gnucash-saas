@@ -86,6 +86,7 @@ app = FastAPI(
     title="GnuCash SaaS API",
     version="1.0.0",
     lifespan=lifespan,
+    redirect_slashes=False,       # Traefik handles slash redirects
 )
 
 # Attach rate-limiter state and error handler
@@ -377,8 +378,21 @@ async def health_check() -> dict:
 
 
 @app.get("/session/{session_name}")
-def open_session_redirect(session_name: str, db: DbSession = Depends(get_db)):
-    """Redirect to the proxied Xpra session."""
+@app.get("/session/{session_name}/")
+async def open_session_redirect(
+    request: Request,
+    session_name: str,
+    db: DbSession = Depends(get_db),
+):
+    """Redirect browsers to the canonical Xpra session URL.
+
+    When the request lacks a trailing slash we redirect to the trailing-
+    slash variant (matching Traefik's ``slash-*`` middleware).  When it
+    already has one we are being reached through the ``backend-sessions``
+    fallback router — meaning the dynamic Xpra container router no longer
+    exists (session expired or container removed).
+    """
+    session_name = session_name.rstrip("/")
     session = (
         db.query(Session)
         .filter(
@@ -387,11 +401,20 @@ def open_session_redirect(session_name: str, db: DbSession = Depends(get_db)):
         )
         .first()
     )
-    if not session:
+    if not session or session.status != "RUNNING":
         raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND, detail="Session not found"
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Session not found or no longer active",
         )
-    return RedirectResponse(url=f"/session/{session.session_token}/")
+    if not request.url.path.endswith("/"):
+        return RedirectResponse(url=f"/session/{session.session_token}/")
+    # Already at the canonical URL — the dynamic Traefik router should
+    # have caught this request.  If we end up here the DB record is stale
+    # and the container was removed externally.
+    raise HTTPException(
+        status_code=status.HTTP_404_NOT_FOUND,
+        detail="Session container is temporarily unavailable",
+    )
 
 
 @app.get("/session/{session_name}/target")

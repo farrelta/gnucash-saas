@@ -34,6 +34,14 @@ services:
       - "traefik.http.routers.backend.tls.certresolver=letsencrypt"
       - "traefik.http.routers.backend.priority=10"
       - "traefik.http.services.backend.loadbalancer.server.port=8000"
+      # Fallback router for /session/ — catches requests for sessions
+      # whose dynamic XPRA routers no longer exist (expired / invalid).
+      # Priority 50 keeps it below dynamic session routers (100) but
+      # above the frontend catch-all (1).
+      - "traefik.http.routers.backend-sessions.rule=PathPrefix(`/session/`)"
+      - "traefik.http.routers.backend-sessions.entrypoints=websecure"
+      - "traefik.http.routers.backend-sessions.tls.certresolver=letsencrypt"
+      - "traefik.http.routers.backend-sessions.priority=50"
     depends_on:
       - traefik
     networks:

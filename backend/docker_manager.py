@@ -47,6 +47,9 @@ def create_container(user_id: int, session_token: str) -> dict:
         detach=True,
         network="gnucash-net",
         name=container_name,
+        environment={
+            "SESSION_TOKEN": session_token,
+        },
         volumes={
             str(user_dir): {
                 "bind": "/data",
@@ -60,8 +63,10 @@ def create_container(user_id: int, session_token: str) -> dict:
                 f"PathPrefix(`/session/{session_token}`)",
             f"traefik.http.routers.gnucash-{session_token}.entrypoints":
                 "websecure",
-	    f"traefik.http.routers.gnucash-{session_token}.priority":
-        	"100",
+            f"traefik.http.routers.gnucash-{session_token}.tls.certresolver":
+                "letsencrypt",
+            f"traefik.http.routers.gnucash-{session_token}.priority":
+                "100",
             f"traefik.http.routers.gnucash-{session_token}.middlewares":
                 f"slash-{session_token},strip-{session_token}",
             # Middleware: trailing-slash redirect
@@ -69,10 +74,11 @@ def create_container(user_id: int, session_token: str) -> dict:
                 f"^(.*)/session/{session_token}$",
             f"traefik.http.middlewares.slash-{session_token}.redirectregex.replacement":
                 f"$1/session/{session_token}/",
-            # Middleware: strip path prefix
+            # Middleware: strip path prefix before forwarding to nginx
+            # sidecar (nginx reconstructs the prefix in HTML asset URLs).
             f"traefik.http.middlewares.strip-{session_token}.stripprefix.prefixes":
                 f"/session/{session_token}",
-            # Service port
+            # Service port (nginx sidecar)
             f"traefik.http.services.gnucash-{session_token}.loadbalancer.server.port":
                 "14500",
         },

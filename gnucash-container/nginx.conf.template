@@ -1,0 +1,44 @@
+# ── Map to set $connection_upgrade for WebSocket proxying ──────────
+map $http_upgrade $connection_upgrade {
+    default upgrade;
+    ''      close;
+}
+
+# ── Upstream: local xpra on 14501 ───────────────────────────────────
+upstream xpra_backend {
+    server 127.0.0.1:14501;
+}
+
+# ── Server block ────────────────────────────────────────────────────
+server {
+    listen 14500;
+    server_name _;
+
+    # ── WebSocket support ────────────────────────────────────────────
+    proxy_http_version 1.1;
+    proxy_set_header Upgrade $http_upgrade;
+    proxy_set_header Connection $connection_upgrade;
+
+    # ── Standard proxy headers ───────────────────────────────────────
+    proxy_set_header Host $host;
+    proxy_set_header X-Real-IP $remote_addr;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header X-Forwarded-Proto $scheme;
+
+    # ── Disable upstream compression so sub_filter can rewrite HTML ──
+    proxy_set_header Accept-Encoding "";
+
+    location / {
+        proxy_pass http://xpra_backend;
+
+        # ── Rewrite root-relative asset paths in HTML ────────────────
+        # XPRA generates <link href="/css/…"> and <script src="/js/…">
+        # which are absolute from the server root.  By prefixing them
+        # with the session path the browser makes subsequent requests
+        # under /session/<token>/ where Traefik captures them.
+        sub_filter_types text/html;
+        sub_filter_once off;
+        sub_filter 'href="/' 'href="/session/${NGINX_SESSION_PREFIX}/';
+        sub_filter 'src="/' 'src="/session/${NGINX_SESSION_PREFIX}/';
+    }
+}
