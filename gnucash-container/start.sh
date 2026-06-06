@@ -28,6 +28,11 @@ NGINX_PID=$!
 # Give nginx a moment to start
 sleep 1
 
+# ── Clean up Xsession log ───────────────────────────────────────────
+# xpra runs /etc/X11/Xsession which creates $HOME/.xsession-errors
+# with harmless debug output. Delete it in background after startup.
+( sleep 5 && rm -f /data/.xsession-errors ) &
+
 # ── Start XPRA on the INTERNAL port (14501) ─────────────────────────
 # nginx listens on 14500 and proxies to 14501.
 # Note: openbox is intentionally omitted — xpra's HTML5 client has
