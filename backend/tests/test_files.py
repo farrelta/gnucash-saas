@@ -13,7 +13,7 @@ def test_file_upload_and_list(client, test_user):
     assert res_upload.json()["filename"] == "test_data.gnucash"
     
     # List
-    res_list = client.get("/api/files/", headers=headers)
+    res_list = client.get("/api/files", headers=headers)
     assert res_list.status_code == 200
     files_list = res_list.json()
     assert len(files_list) > 0
@@ -52,5 +52,6 @@ def test_file_delete(client, test_user):
     assert res.status_code == 200
     
     # Ensure gone
-    res_list = client.get("/api/files/", headers=headers)
+    res_list = client.get("/api/files", headers=headers)
+    assert res_list.status_code == 200
     assert not any(f["filename"] == "delete_me.qif" for f in res_list.json())
