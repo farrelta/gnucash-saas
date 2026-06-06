@@ -38,7 +38,7 @@ export function FileList({ files, onFileDeleted }: FileListProps) {
   if (files.length === 0) {
     return (
       <div className="empty-state glass-card">
-        <div className="empty-icon">📁</div>
+        <div className="empty-state-icon">📁</div>
         <h3>No files found</h3>
         <p>Upload your GnuCash files to get started.</p>
       </div>
@@ -46,14 +46,14 @@ export function FileList({ files, onFileDeleted }: FileListProps) {
   }
 
   return (
-    <div className="file-list-container glass-card">
-      <table className="file-table">
+    <div className="table-container">
+      <table className="table">
         <thead>
           <tr>
             <th>Name</th>
             <th>Size</th>
             <th>Modified Date</th>
-            <th className="actions-cell">Actions</th>
+            <th className="actions">Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -62,7 +62,7 @@ export function FileList({ files, onFileDeleted }: FileListProps) {
               <td className="file-name">{file.filename}</td>
               <td>{formatSize(file.size)}</td>
               <td>{new Date(file.modified_at).toLocaleString()}</td>
-              <td className="actions-cell">
+              <td className="actions">
                 <button 
                   onClick={() => handleDownload(file.filename)} 
                   className="btn btn-secondary btn-sm mr-sm"

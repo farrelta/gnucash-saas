@@ -7,8 +7,8 @@ export function ProtectedRoute({ children }: { children: React.ReactNode }) {
 
   if (loading) {
     return (
-      <div className="loading-container">
-        <span className="loading-spinner large"></span>
+      <div className="spinner-fullpage">
+        <span className="spinner"></span>
       </div>
     );
   }

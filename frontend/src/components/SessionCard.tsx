@@ -35,25 +35,25 @@ export function SessionCard({ session, onStatusChange }: SessionCardProps) {
     <div className={`session-card glass-card ${isRunning ? 'active-glow' : ''}`}>
       <div className="session-header">
         <div className="session-status">
-          <span className={`status-dot ${isRunning ? 'running pulse' : 'stopped'}`}></span>
+          <span className={`status-dot ${isRunning ? 'running' : 'stopped'}`}></span>
           <span className="status-text">{session.status}</span>
         </div>
         <div className="session-id">Session #{session.id}</div>
       </div>
 
-      <div className="session-body">
-        <div className="info-row">
-          <span className="info-label">Container:</span>
-          <span className="info-value">{session.container_name || 'N/A'}</span>
+      <div className="session-info">
+        <div className="session-info-row">
+          <span className="label">Container:</span>
+          <span className="value">{session.container_name || 'N/A'}</span>
         </div>
-        <div className="info-row">
-          <span className="info-label">Created:</span>
-          <span className="info-value">{new Date(session.created_at).toLocaleString()}</span>
+        <div className="session-info-row">
+          <span className="label">Created:</span>
+          <span className="value">{new Date(session.created_at).toLocaleString()}</span>
         </div>
         {session.last_activity && (
-          <div className="info-row">
-            <span className="info-label">Last Activity:</span>
-            <span className="info-value">{new Date(session.last_activity).toLocaleString()}</span>
+          <div className="session-info-row">
+            <span className="label">Last Activity:</span>
+            <span className="value">{new Date(session.last_activity).toLocaleString()}</span>
           </div>
         )}
       </div>

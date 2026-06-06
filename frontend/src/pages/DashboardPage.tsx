@@ -89,13 +89,13 @@ export function DashboardPage() {
             
             {isLoadingSessions ? (
               <div className="glass-card flex-center py-xl">
-                <span className="loading-spinner"></span>
+                <span className="spinner"></span>
               </div>
             ) : activeSession ? (
               <SessionCard session={activeSession} onStatusChange={fetchSessions} />
             ) : (
               <div className="empty-state glass-card">
-                <div className="empty-icon mb-sm">🖥️</div>
+                <div className="empty-state-icon">🖥️</div>
                 <h3 className="mb-sm">No Active Session</h3>
                 <p className="mb-md text-secondary">Launch GnuCash to start managing your finances.</p>
                 <button 

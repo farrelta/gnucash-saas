@@ -31,7 +31,7 @@ export function LoginPage() {
         <p className="auth-subtitle">Sign in to your GnuCash workspace</p>
         
         {error && (
-          <div className="error-message shake">
+          <div className="error-message">
             {error}
           </div>
         )}
@@ -60,7 +60,7 @@ export function LoginPage() {
             />
           </div>
           <button type="submit" className="btn btn-primary" disabled={isSubmitting}>
-            {isSubmitting ? <span className="loading-spinner"></span> : 'Sign In'}
+            {isSubmitting ? <span className="spinner-sm"></span> : 'Sign In'}
           </button>
         </form>
         

@@ -77,10 +77,10 @@ export function FileUpload({ onUploadSuccess }: FileUploadProps) {
 
   return (
     <div className="file-upload-container">
-      {error && <div className="error-message shake mb-md">{error}</div>}
+      {error && <div className="error-message mb-md">{error}</div>}
       
       <div 
-        className={`drop-zone glass-card ${isDragging ? 'dragging' : ''} ${isUploading ? 'uploading' : ''}`}
+        className={`upload-zone glass-card ${isDragging ? 'dragover' : ''}`}
         onDragOver={onDragOver}
         onDragLeave={onDragLeave}
         onDrop={onDrop}
@@ -95,11 +95,11 @@ export function FileUpload({ onUploadSuccess }: FileUploadProps) {
         />
         
         {isUploading ? (
-          <div className="upload-progress-container">
-            <div className="loading-spinner mb-sm"></div>
+          <div className="upload-progress">
+            <div className="spinner-sm mb-sm"></div>
             <p>Uploading... {uploadProgress}%</p>
             <div className="progress-bar">
-              <div className="progress-fill" style={{ width: `${uploadProgress}%` }}></div>
+              <div className="progress-bar-fill" style={{ width: `${uploadProgress}%` }}></div>
             </div>
           </div>
         ) : (

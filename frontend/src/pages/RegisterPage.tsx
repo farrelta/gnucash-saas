@@ -43,7 +43,7 @@ export function RegisterPage() {
         <p className="auth-subtitle">Join GnuCash SaaS today</p>
         
         {error && (
-          <div className="error-message shake">
+          <div className="error-message">
             {error}
           </div>
         )}
@@ -83,7 +83,7 @@ export function RegisterPage() {
             />
           </div>
           <button type="submit" className="btn btn-primary" disabled={isSubmitting}>
-            {isSubmitting ? <span className="loading-spinner"></span> : 'Create Account'}
+            {isSubmitting ? <span className="spinner-sm"></span> : 'Create Account'}
           </button>
         </form>
         
