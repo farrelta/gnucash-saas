@@ -4,7 +4,7 @@ A cloud-based accounting platform that gives each user their own GnuCash desktop
 
 ---
 
-## 🏗️ Architecture
+## Architecture
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
@@ -44,24 +44,24 @@ A cloud-based accounting platform that gives each user their own GnuCash desktop
         └──────────────────┘
 ```
 
-### 📊 Technology Stack
+### Technology Stack
 
-| Component | Technology | Coverage |
-|-----------|-----------|----------|
-| **Reverse Proxy** | Traefik v3.1 + Let's Encrypt | — |
-| **Backend API** | Python 3.12, FastAPI, Uvicorn | **42.5%** |
-| **Frontend** | React 18, TypeScript, Vite | **30.3%** |
-| **Styling** | CSS | **23.6%** |
-| **Database** | Azure MySQL (managed) | — |
-| **Desktop Streaming** | xpra HTML5 (port 14500) | — |
-| **Containerization** | Docker, Docker Compose | **1.1%** |
-| **Infrastructure** | Shell scripting | **1.9%** |
-| **Markup** | HTML | **0.6%** |
-| **Host OS** | Ubuntu 24.04 LTS | — |
+| Component | Technology | 
+|-----------|-----------|
+| **Reverse Proxy** | Traefik v3.1 + Let's Encrypt |
+| **Backend API** | Python 3.12, FastAPI, Uvicorn |
+| **Frontend** | React 18, TypeScript, Vite |
+| **Styling** | CSS |
+| **Database** | Azure MySQL (managed) |
+| **Desktop Streaming** | xpra HTML5 (port 14500) |
+| **Containerization** | Docker, Docker Compose |
+| **Infrastructure** | Shell scripting |
+| **Markup** | HTML |
+| **Host OS** | Ubuntu 24.04 LTS |
 
 ---
 
-## 📋 Prerequisites
+## Prerequisites
 
 - **Ubuntu 24.04 LTS** server (or compatible Linux)
 - **Docker** ≥ 24.0 and **Docker Compose** ≥ 2.20
@@ -71,7 +71,7 @@ A cloud-based accounting platform that gives each user their own GnuCash desktop
 
 ---
 
-## 🚀 Quick Start
+## Quick Start
 
 ### 1. Clone the repository
 
@@ -123,7 +123,7 @@ Open `https://your-domain.com` in your browser.
 
 ---
 
-## ⚙️ Environment Variables
+## Environment Variables
 
 | Variable | Description | Default | Required |
 |----------|-------------|---------|----------|
@@ -140,7 +140,7 @@ Open `https://your-domain.com` in your browser.
 
 ---
 
-## 🔌 API Reference
+## API Reference
 
 | Method | Path | Auth | Description |
 |--------|------|------|-------------|
@@ -157,7 +157,7 @@ Open `https://your-domain.com` in your browser.
 
 ---
 
-## 👨‍💻 Development
+## Development
 
 ### Backend (Python 42.5%)
 
@@ -183,7 +183,7 @@ uvicorn main:app --reload --port 8000
 - `Dockerfile` — Python 3.12-slim container
 - `tests/` — Test suite (conftest, auth, files, scheduler, sessions)
 
-### Frontend (TypeScript 30.3% + CSS 23.6%)
+### Frontend
 
 ```bash
 cd frontend
@@ -213,7 +213,7 @@ The Vite dev server is pre-configured to proxy `/api` requests to `http://localh
 
 ---
 
-## 📦 Project Structure
+## Project Structure
 
 ```
 gnucash-saas/
@@ -272,7 +272,7 @@ gnucash-saas/
 
 ---
 
-## 🔒 Security
+## Security
 
 - **HTTPS everywhere** — Traefik auto-provisions TLS certificates via Let's Encrypt
 - **HTTP → HTTPS redirect** — All HTTP traffic is redirected to HTTPS
@@ -289,7 +289,7 @@ For detailed security policies, see [SECURITY.md](SECURITY.md).
 
 ---
 
-## 🐛 Troubleshooting
+## Troubleshooting
 
 ### Let's Encrypt certificate not issuing
 
@@ -323,7 +323,7 @@ For detailed security policies, see [SECURITY.md](SECURITY.md).
 
 ---
 
-## 📝 Testing
+## Testing
 
 Run the backend test suite:
 
@@ -346,13 +346,13 @@ Test categories:
 
 ---
 
-## 📄 License
+## License
 
 MIT License — see [LICENSE](LICENSE) for details.
 
 ---
 
-## 🤝 Contributing
+## Contributing
 
 Contributions are welcome! Please ensure:
 
@@ -360,11 +360,6 @@ Contributions are welcome! Please ensure:
 2. Code follows PEP 8 (Python) and ESLint (TypeScript)
 3. New features include appropriate tests
 4. Documentation is updated accordingly
-
----
-
-## 📞 Support
-
 For issues and feature requests, please visit the [Issues](https://github.com/farrelta/gnucash-saas/issues) page.
 
 ---
