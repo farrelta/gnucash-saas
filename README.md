@@ -159,7 +159,7 @@ Open `https://your-domain.com` in your browser.
 
 ## Development
 
-### Backend (Python 42.5%)
+### Backend
 
 ```bash
 cd backend
